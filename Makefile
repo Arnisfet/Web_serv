@@ -26,7 +26,7 @@ $(BUILDDIR):
 
 # Object dir rule
 $(BUILDDIR)%.o:$(DIRPRS)%.cpp
-	$(CC) -I$(INC) $(CFLAGS) -g -o $@ -c $<
+	$(CC) -I$(INC) $(CFLAGS) -std=c++98 -g -o $@ -c $<
 
 # Project file rule
 $(NAME): $(BUILDOBJS)
