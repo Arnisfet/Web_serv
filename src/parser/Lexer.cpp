@@ -10,17 +10,6 @@ Lexer::Lexer()
 Lexer::~Lexer()
 {}
 
-void Lexer::Remove_Space()
-{
-	for (std::string::iterator it = _Config.begin(); it != _Config.end(); it++)
-	{
-		std::string::iterator begin = it;
-		while (it != _Config.end() && ::isspace(*it) )it++;
-		if (it - begin > 1)
-			it = _Config.erase(begin + 1, it) - 1;
-	}
-}
-
 Lexer::Lexer(const std::string &path)
 {
 	std::string line; // Строка для чтения из потока
@@ -37,37 +26,31 @@ Lexer::Lexer(const std::string &path)
 	read.close();
 }
 
-void Lexer::work_with_conf()
+void Lexer::Remove_Space()
 {
-	std::string::iterator begin;
-	std::string::iterator end;
-	std::string::iterator cp_point;
+	std::string::iterator begin = _Config.begin();
+	std::string::iterator end = _Config.end();
+	std::string::iterator point = begin;
 
-
-	Remove_Space(); // Режу все символы переноса и пробелы
-	end = _Config.end();
-	for (begin = _Config.begin(); begin != end; begin++)
+	while (begin != end)
 	{
-		if (::isspace(*begin))
-			begin++;
-		if (*begin == '#')
-			_Tokens.push_back(Hastag(begin, cp_point, end)) ;
+		if (*begin == ' ')
+			if (point != begin)
+			{
+				*point = *begin;
+				++point;
+			}
+		++begin;
 	}
 
 }
-Token_type Lexer::Hastag(std::string::iterator begin, std::string::iterator cp_point,
-						  std::string::iterator end)
-{
-	Token_type hashtagr;
 
-	cp_point = begin;
-	while (*cp_point != '\n' && cp_point != end)
-	{
-		cp_point++;
-	}
-	hashtagr.second = HASHTAG;
-	hashtagr.first = _Config.substr(begin - _Config.begin(), cp_point - begin);
-	std::cout << hashtagr.first;
-	begin = cp_point;
-	return (hashtagr);
+void Lexer::split()
+{
+	_Config.erase(std::remove(_Config.begin(), _Config.end(), '\n'), _Config.end());
+	// Режу все символы переноса
+	Remove_Space();
+
+	std::cout << _Config;
+
 }

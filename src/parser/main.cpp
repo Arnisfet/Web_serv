@@ -8,5 +8,5 @@ int main(int ac, char **av)
 		return (-1);
 	}
 	Lexer lex(av[1]);
-	lex.work_with_conf();
+	lex.split();
 }

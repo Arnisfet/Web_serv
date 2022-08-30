@@ -34,9 +34,9 @@ public:
 	Lexer();
 	Lexer(const std::string &path);
 	void Remove_Space();
-	void work_with_conf();
-	Token_type Hastag(std::string::iterator begin, std::string::iterator cp_point,
-							  std::string::iterator end);
+	void split();
+	void Hashtag(int *i);
+	bool IsN(char c) {return (c == '\n');}
 	~Lexer();
 };
 
