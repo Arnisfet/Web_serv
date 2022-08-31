@@ -15,7 +15,6 @@
 
 
 enum TOKENS {
-	HASHTAG,
 	SEMICOLON,
 	WORD,
 	OPEN_BRACKET,
@@ -33,10 +32,10 @@ private:
 public:
 	Lexer();
 	Lexer(const std::string &path);
-	void Remove_Space();
+	std::string Remove_Space(std::string line);
+	void Make_Simple_Tokens();
 	void split();
-	void Hashtag(int *i);
-	bool IsN(char c) {return (c == '\n');}
+	void Split_Tokens();
 	~Lexer();
 };
 
