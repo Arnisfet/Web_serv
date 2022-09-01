@@ -37,6 +37,8 @@ public:
 	void split();
 	void Split_Tokens();
 	~Lexer();
+
+	void print_vector();
 };
 
 

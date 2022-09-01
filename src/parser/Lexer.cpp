@@ -2,6 +2,10 @@
 // Created by arnisfet on 28.08.2022.
 //
 
+/** Тот кто по неизвестным мне причинам решил прочесть этот файл: сейчас ты увидишь генильнейшее
+ * решение разбивки на лексемы, все уложилось в 4-5 функций, и ничего лишнего
+ */
+
 #include "Lexer.hpp"
 
 Lexer::Lexer()
@@ -35,9 +39,10 @@ void Lexer::split()
 	// Режу все символы переноса
 	_Config = Remove_Space(_Config);
 	Make_Simple_Tokens();
-	// Дальше не менее сложное - дробление в вектор....
-//	Split_Tokens();
-	std::cout << _Config;
+	// Дальше не сложное - дробление в вектор....
+	Split_Tokens();
+	print_vector();
+//	std::cout << _Config;
 }
 
 /** Основная суть функции в том, чтобы оставить только пробел, пробел нужен для дробления слов на
@@ -122,11 +127,13 @@ void Lexer::Make_Simple_Tokens()
 	}
 }
 
+/** Ну тут все легко, написано максимально просто, обычный сплиит лексем **/
+
 void Lexer::Split_Tokens()
 {
 	std::string::size_type begin = 0;
 	std::string::size_type end;
-	std::vector<std::string> substr;
+	std::string substr;
 	int i = 0;
 
 	begin = i;
@@ -134,9 +141,27 @@ void Lexer::Split_Tokens()
 	{
 		if (_Config[i] == ' ')
 		{
-			substr.push_back(_Config.substr(begin, i - begin));
+			substr = _Config.substr(begin, i - begin);
+			if (substr == ";")
+				_Tokens.push_back(std::pair<std::string, TOKENS>(substr, SEMICOLON));
+			else if (substr == "{")
+				_Tokens.push_back(std::pair<std::string, TOKENS>(substr, OPEN_BRACKET));
+			else if (substr == "}")
+				_Tokens.push_back(std::pair<std::string, TOKENS>(substr, CLOSE_BRACKET));
+			else
+				_Tokens.push_back(std::pair<std::string, TOKENS>(substr, WORD));
 			begin = i + 1;
 		}
 		i++;
 	}
+}
+
+void Lexer::print_vector()
+{
+	std::vector<Token_type >::iterator begin = _Tokens.begin();
+	std::vector<Token_type >::iterator end = _Tokens.end();
+
+	for (; begin != end; begin++)
+		std::cout << " Стринга: " << begin->first << " Токен к стринге: " << begin->second <<
+		std::endl;
 }
