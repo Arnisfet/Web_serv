@@ -15,19 +15,33 @@ enum DICTIONARY	{SERVER, LOCATION};
 typedef struct server{
 	std::string root;
 } t_server;
-
+class Lexer;
 class Parser
 {
 private:
-	std::vector<t_server> _Servers; // Вектор в котором будут хранится все структуры, равные
+//	std::vector<t_server> _Servers; // Вектор в котором будут хранится все структуры, равные
 	// кол-ву серверов
+	std::string _Path;
 	std::vector<Token_type> _Tokens;
 	int _serv_nums;
+	int _now_serv;
 	t_server *_serv_struct;
+
 public:
-	Parser(std::vector<Token_type> Tokens);
+	Parser(const std::string &path);
 	~Parser();
 	void ParseConfig();
+	void Parse_Server(std::vector<Token_type >::iterator begin);
+
+	class Error : public std::exception
+			{
+			public:
+				Error(const char *err_msg) : err_msg(err_msg) {};
+				virtual const char *what() const throw() {return (this->err_msg);}
+
+			private:
+				const char *err_msg;
+			};
 
 };
 

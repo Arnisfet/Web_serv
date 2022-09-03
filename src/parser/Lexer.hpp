@@ -31,12 +31,12 @@ private:
 	std::vector<Token_type> _Tokens;
 public:
 	Lexer();
-	Lexer(const std::string &path);
+	Lexer(std::string &path);
 	std::string Remove_Space(std::string line);
 	void Make_Simple_Tokens();
 	void split();
 	void Split_Tokens();
-	std::vector<Token_type> &getTokens();
+	std::vector<Token_type> &getTokens(); // Позорный гетер, но идет в другой класс, так что все ок
 
 	~Lexer();
 

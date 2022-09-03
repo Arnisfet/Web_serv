@@ -16,7 +16,7 @@ Lexer::~Lexer()
 
 /** Конструктор **/
 
-Lexer::Lexer(const std::string &path)
+Lexer::Lexer( std::string &path)
 {
 	std::string line; // Строка для чтения из потока
 
@@ -41,8 +41,6 @@ void Lexer::split()
 	Make_Simple_Tokens();
 	// Дальше не сложное - дробление в вектор....
 	Split_Tokens();
-//	print_vector();
-//	std::cout << _Config;
 }
 
 /** Основная суть функции в том, чтобы оставить только пробел, пробел нужен для дробления слов на
