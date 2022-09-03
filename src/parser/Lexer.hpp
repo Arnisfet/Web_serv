@@ -36,6 +36,8 @@ public:
 	void Make_Simple_Tokens();
 	void split();
 	void Split_Tokens();
+	std::vector<Token_type> &getTokens();
+
 	~Lexer();
 
 	void print_vector();

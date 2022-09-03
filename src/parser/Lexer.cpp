@@ -41,7 +41,7 @@ void Lexer::split()
 	Make_Simple_Tokens();
 	// Дальше не сложное - дробление в вектор....
 	Split_Tokens();
-	print_vector();
+//	print_vector();
 //	std::cout << _Config;
 }
 
@@ -164,4 +164,9 @@ void Lexer::print_vector()
 	for (; begin != end; begin++)
 		std::cout << " Стринга: " << begin->first << " Токен к стринге: " << begin->second <<
 		std::endl;
+}
+
+std::vector<Token_type> &Lexer::getTokens()
+{
+	return (_Tokens);
 }
