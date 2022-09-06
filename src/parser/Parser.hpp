@@ -10,29 +10,39 @@
  * Создал словарь, должен помочь при парсинге
  */
 enum DICTIONARY	{SERVER, LOCATION};
+typedef struct s_location t_location;
+/**** Вот тут начинается треш, первый объект - структура под серверные переменные
+ * 		как говорится нет динамической памяти - нет проблем					****/
 
-/**** Вот тут начинается треш, первый объект - структура под серверные переменные****/
 typedef struct server{
 	std::string root;
+	std::string index;
 } t_server;
+
+typedef struct s_location{
+	std::string directory;
+	std::vector<std::string> methods;
+	std::string index;
+}t_location;
+
 class Lexer;
 class Parser
 {
 private:
-//	std::vector<t_server> _Servers; // Вектор в котором будут хранится все структуры, равные
+	std::vector<t_server> _Servers; // Вектор в котором будут хранится все структуры, равные
 	// кол-ву серверов
+	std::vector<std::pair<t_location, int> > _locations; // Гениально простое решение без
+	// рекурсивных вкладок
 	std::string _Path;
 	std::vector<Token_type> _Tokens;
 	int _serv_nums;
-	int _now_serv;
-	t_server *_serv_struct;
 
 public:
 	Parser(const std::string &path);
 	~Parser();
 	void ParseConfig();
-	void Parse_Server(std::vector<Token_type >::iterator begin);
-
+	std::vector<Token_type >::iterator Parse_Server(std::vector<Token_type >::iterator begin);
+	/*** Класс Exception по еблу ***/
 	class Error : public std::exception
 			{
 			public:
@@ -42,7 +52,9 @@ public:
 			private:
 				const char *err_msg;
 			};
-
+	void	PrintServers();
+	std::vector<Token_type>::iterator
+	AddLocation(std::vector<Token_type>::iterator begin);
 };
 
 
