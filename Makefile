@@ -2,7 +2,8 @@
 NAME	=	webserv
 # Project builds
 DIRPRS		= ./src/parser/
-SRCNAMES	= $(shell ls $(DIRPRS) | grep -E ".+\.cpp")
+DIRSOCK		= ./src/Sockets/
+SRCNAMES	= $(shell ls $(DIRPRS) $(DIRSOCK) | grep -E ".+\.cpp")
 SRCPRS 		= $(addprefix $(DIRPRS), $(SRCNAMES))
 OBJ			= $(SRCPRS:.cpp=.o)
 INCPRS 		= ./src/parser/
@@ -24,9 +25,13 @@ all:		$(BUILDDIR) $(LIBFT) $(NAME)
 $(BUILDDIR):
 	mkdir -p $(BUILDDIR)
 
-# Object dir rule
+# Object parser rule
 $(BUILDDIR)%.o:$(DIRPRS)%.cpp
-	$(CC) -I$(INC) $(CFLAGS) -g -o $@ -c $<
+	$(CC) -I$(INC) $(CFLAGS) -std=c++98 -g -o $@ -c $<
+
+# Object sockets rule
+$(BUILDDIR)%.o:$(DIRSOCK)%.cpp
+	$(CC) -I$(INC) $(CFLAGS) -std=c++98 -g -o $@ -c $<
 
 # Project file rule
 $(NAME): $(BUILDOBJS)
